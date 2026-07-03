@@ -1,16 +1,16 @@
-# CreatorIQ — AI-Powered Creator Marketing Analytics Platform
+# CREATORIQ - AI POWERED CREATOR MARKETING ANALYTICS PLATEFORM 🌻
 
 An end-to-end analytics platform that helps brands identify which creator
 partnerships drive real ROI — going beyond vanity metrics to measure actual
 business outcomes.
 
-## The problem this solves
+## ✶The problem this project solves:
 
 Most brands waste marketing budget on creators who look good on paper
 (high likes, high followers) but generate zero actual sales. CreatorIQ
 uses data and AI to separate real performers from vanity metrics.
 
-## The 5 business questions this project answers
+## ✶The 5 business questions this project answers:
 
 1. Which creators generate the highest ROI and revenue?
 2. Which partnerships drive real conversions vs only engagement?
@@ -18,7 +18,7 @@ uses data and AI to separate real performers from vanity metrics.
 4. Which platforms, categories and content formats perform best?
 5. Which creators should we scale, improve, or stop?
 
-## Tech stack
+## ✶Tech stack
 
 | Layer | Tool | Purpose |
 |---|---|---|
@@ -31,7 +31,7 @@ uses data and AI to separate real performers from vanity metrics.
 | Web app | Streamlit | Live deployed analytics app |
 | Version control | Git + GitHub | Documented commit history |
 
-## Database schema — 7 tables
+## ✶Database schema — 7 tables
 
 | Table | Rows | Purpose |
 |---|---|---|
@@ -43,7 +43,7 @@ uses data and AI to separate real performers from vanity metrics.
 | conversions | 2,437 | Actual sales and purchases |
 | audience_demographics | 1,200 | Creator audience breakdowns |
 
-## Project structure
+## ✶Project structure
 
 creatoriq/
 ├── sql/              # PostgreSQL schema
@@ -53,7 +53,7 @@ creatoriq/
 ├── dashboards/       # Power BI files
 └── docs/             # ERD, methodology, write-ups
 
-## How to reproduce the dataset locally
+## ✶How to reproduce the dataset locally
 
 git clone https://github.com/jannat0082/creatoriq.git
 cd creatoriq
@@ -64,7 +64,7 @@ python scripts/03_generate_posts.py
 python scripts/04_generate_conversions.py
 python scripts/05_generate_audience_demographics.py
 
-## Data methodology
+## ✶Data methodology
 
 This project uses synthetic data engineered to match published
 2025-2026 industry benchmarks — not arbitrary random numbers.
