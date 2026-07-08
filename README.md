@@ -171,7 +171,7 @@ Full details in `docs/data_methodology.md`.
 | 1 | Foundation | SQL schema + database setup | 7-table PostgreSQL schema, ERD, data dictionary |  Complete |
 | 2 | Data Generation | Python synthetic data pipeline | 5 scripts, 5,165 rows, 7 tables populated |  Complete |
 | 3 | Python EDA | Exploratory data analysis | 8-cell Jupyter notebook, 5 charts, key insights |  Complete |
-| 4 | Excel Reporting | Automated KPI reports | Auto-generated .xlsx campaign report |  In Progress |
+| 4 | Excel Reporting | Automated KPI reports | Auto-generated .xlsx campaign report |  Complete |
 | 5 | AI / ML Model | Creator Scoring model | Weighted model, sentiment analysis, fake engagement detector | Upcoming |
 | 6 | Power BI | Executive dashboard | 3-page interactive dashboard with DAX measures |  Upcoming |
 | 7 | Streamlit | Live web application | Deployed app with shareable URL | Upcoming |
