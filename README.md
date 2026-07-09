@@ -108,15 +108,15 @@ python scripts/05_generate_audience_demographics.py
 
 ## ✶ Challenges & Fixes
 
-**Promo code collision** — used `random.randint(10,99)` which only
+- **Promo code collision** — used `random.randint(10,99)` which only
 has 90 possible values. Got 18 duplicate codes across 462 rows.
 Fixed by using `cc_id` instead — a guaranteed unique counter.
 
-**The 68.0 problem** — pandas saves nullable integers as float64.
+- **The 68.0 problem** — pandas saves nullable integers as float64.
 So `68` became `68.0` and Supabase rejected it. Fixed by casting
 to `Int64` before saving.
 
-**Too many organic posts** — 37.5% of creators had zero campaign
+- **Too many organic posts** — 37.5% of creators had zero campaign
 history because 40 campaigns wasn't enough. Fixed by increasing
 to 70 campaigns.
 
