@@ -1,117 +1,102 @@
-# CREATORIQ 🌻
+# VibeSignal AI 🌻
+VibeSignal AI is a budget-first creator intelligence prototype built for Indian D2C brands and marketing agencies. It helps brands decide — before they spend — whether to work with nano creators, micro creators, or a mixed strategy, and recommends specific creators and budget allocations for a given INR campaign budget.
 
-An analytics platform I built to help brands figure out which creator 
-partnerships are actually worth the money — not just which ones get the 
-most likes.
+## ✶ Problem Statement
+Most influencer marketing tools show you which creators performed best
+after a campaign ends. That's useful, but it's too late. VibeSignal AI helps brands make the decision before spending — by analyzing creator data, scoring each creator with VibeScore, and recommending a budget allocation strategy based on campaign goals. Built specifically for Indian D2C brands where budgets are tight and every rupee of creator spend needs to be justified.
 
-**Problem Statement:** Most influencer marketing dashboards show you 
-engagement metrics. Nobody tells you which creators actually drive sales. 
-That gap is what this project tries to solve.
 
----
+## ✶ Key Features
+- **VibeScore** — composite creator ranking across 5 weighted dimensions
+- **Budget Allocator** — splits a fixed INR budget across recommended creators
+- **Scenario Comparison** — nano vs micro vs mixed strategy side by side
+- **Engagement Authenticity Risk Indicator** — flags possible risk signals
+- **EDA Notebook** — 5 charts surfacing real patterns in the data
+- **Excel Report** — auto-generated campaign KPI report
 
-## ✶ Project Overview 
+## ✶ Core Insight
+Nano creators drive far higher engagement rates (up to ~8x vs mega creators), but large creators convert substantially better (observed ~44x higher conversion). Measuring engagement alone can mislead ROI-focused campaigns — VibeSignal aims to close that gap by prioritizing conversion-aligned signals and budget efficiency.
 
-Brands spend millions on creator partnerships without knowing which ones 
-convert. CreatorIQ analyzes creator data across 5 dimensions:
+## ✶ VibeScore Framework
+VibeScore is a transparent creator scoring framework that rates each creator from 0 to 100 across five dimensions.
 
-- Which creators give the best ROI (not just the most reach)
-- Which partnerships drive actual purchases vs just engagement
-- Which audience segments respond and actually buy
-- Which platforms and content formats perform best
-- Which creators to scale, fix, or drop entirely
+| Dimension          | Weight | Purpose                                                                 |
+| ------------------ | ------ | ----------------------------------------------------------------------- |
+| Audience Fit       | 30%    | Measures how well the creator reaches the intended audience.            |
+| Engagement Quality | 25%    | Evaluates whether followers are genuinely interacting with the content. |
+| Content Relevance  | 20%    | Assesses how closely the content aligns with the brand category.        |
+| Cost Efficiency    | 15%    | Measures value delivered per rupee spent.                               |
+| Authenticity Risk  | 10%    | Flags possible signs of fake or low-quality engagement.                 |
 
----
+Score Bands
+- **75-100**: Scale — increase investment.
+- **50-74**: Watch — monitor closely.
+- **25-49**: Improve — refine the partnership strategy.
+- **0-24**: Stop — exit the partnership.
 
-## ✶ Key Findings
+VibeScore is a prototype decision framework, not a production-grade scoring system. The weights are configurable and intentionally transparent.
 
-The biggest insight surprised me. Nano creators (under 10K followers) 
-get **8x more engagement** than mega creators. But when I looked at 
-actual conversion rates, mega creators convert **44x better**.
-
-So brands paying for engagement are measuring the wrong thing. That's 
-the whole point of this project.
-
-Other findings:
-- Twitter leads engagement at 6.14% (not Instagram, which most people 
-  assume)
-- Video content outperforms reels and stories at 6.08%
-- 70% of purchases happen on mobile
-- Average order value from creator-driven sales: $66
-
----
-
-## ✶ Tech stack
+## ✶ Tech Stack
 
 | What | Tool |
 |---|---|
 | Database | PostgreSQL on Supabase |
 | Data scripts | Python (Faker, Pandas, NumPy) |
 | Analysis | Jupyter notebook, Matplotlib, Seaborn |
-| AI model | scikit-learn, VADER sentiment  |
+| Scoring model | Python weighted algorithm |
+| Risk indicator | Rule-based signal detection |
 | Excel reports | openpyxl |
-| Dashboard | Power BI  |
+| Dashboard | Power BI |
 | Web app | Streamlit |
 
 ---
 
-## ✶ Database — 7 tables, 5,165 rows
-
-I designed the schema from scratch starting with business questions, 
-not from a tutorial. Every table exists because a specific business 
-question needed it.
+## ✶ Data & Schema 
+Database: PostgreSQL on Supabase
+Rows: 5,165 across 7 tables
 
 | Table | Rows | What it stores |
 |---|---|---|
-| brands | 15 | Companies running campaigns |
-| creators | 200 | Creator profiles, tiers, engagement rates |
+| brands | 15 | D2C brand profiles |
+| creators | 200 | Creator profiles with tier and engagement data |
 | campaigns | 70 | Campaign budgets, objectives, dates |
 | campaign_creators | 460 | Who worked in which campaign, for what fee |
 | posts | 783 | Content metrics — likes, views, clicks, reach |
-| conversions | 2,437 | Actual purchases with promo codes and demographics |
-| audience_demographics | 1,200 | Creator audience breakdown by age and gender |
+| conversions | 2,437 | Actual purchases with promo codes |
+| audience_demographics | 1,200 | Creator audience breakdown |
 
----
+## ✶ Project Structure
 
-## ✶ Project structure
 
+```bash
+vibesignal-ai
+├── sql
+│   └── schema.sql
+├── data/                    # gitignored — generated via scripts
+├── scripts
+│   ├── 01_generate_creators.py
+│   ├── 02_generate_campaigns.py
+│   ├── 03_generate_posts.py
+│   ├── 04_generate_conversions.py
+│   ├── 05_generate_audience_demographics.py
+│   ├── 06_generate_excel_report.py
+│   └── 07_vibescore_model.py
+├── notebooks
+│   ├── 01_eda_analysis.ipynb
+│   └── charts/              # 5 PNG files
+├── dashboards/
+├── docs
+│   ├── data_methodology.md
+│   └── learning_journal.md
+├── README.md
+└── .gitignore
 ```
-  creatoriq
-│
-├── 📂 sql
-│   └── 📄 schema.sql                         
-│
-├── 📂 data   # gitignored — run scripts to generate                     
-│
-├── 📂 scripts                                
-│   ├──  01_generate_creators.py             
-│   ├──  02_generate_campaigns.py            
-│   ├──  03_generate_posts.py               
-│   ├──  04_generate_conversions.py          
-│   └──  05_generate_audience_demographics.py 
-│
-├── 📂 notebooks                              
-│   ├──  01_eda_analysis.ipynb              
-│   ├──  chart_01_tier_analysis.png
-│   ├──  chart_02_vanity_metrics.png
-│   ├──  chart_03_platform_format.png
-│   ├──  chart_04_roi_analysis.png
-│   └──  chart_05_revenue_summary.png
-│
-├── 📂 dashboards                              
-│
-├── 📂 docs
-│   └── 📄 data_methodology.md                
-├── 📄 README.md
-└── 📄 .gitignore
-```
----
 
 ## ✶ Getting Started
 
 ```bash
-git clone https://github.com/jannat0082/creatoriq.git
-cd creatoriq
+git clone https://github.com/jannat0082/vibesignal-ai.git
+cd vibesignal-ai
 pip install faker pandas numpy matplotlib seaborn scikit-learn openpyxl
 python scripts/01_generate_creators.py
 python scripts/02_generate_campaigns.py
@@ -120,61 +105,46 @@ python scripts/04_generate_conversions.py
 python scripts/05_generate_audience_demographics.py
 ```
 
----
 
 ## ✶ Challenges & Fixes
 
-These aren't made up. These happened.
+**Promo code collision** — used `random.randint(10,99)` which only
+has 90 possible values. Got 18 duplicate codes across 462 rows.
+Fixed by using `cc_id` instead — a guaranteed unique counter.
 
-**Promo code collision** — I generated unique promo codes using 
-`random.randint(10,99)`. Turns out that's only 90 possible values. 
-With common first names like "John" appearing on multiple creators, 
-I got 18 duplicate codes across 462 rows. Fixed by using `cc_id` 
-instead — a counter that's guaranteed unique.
+**The 68.0 problem** — pandas saves nullable integers as float64.
+So `68` became `68.0` and Supabase rejected it. Fixed by casting
+to `Int64` before saving.
 
-**The 68.0 problem** — Pandas saves integer columns as float when 
-they contain NULL values. So `68` became `68.0` in the CSV, and 
-Supabase rejected it because the column type is integer. Fixed by 
-casting to `Int64` (pandas nullable integer) before saving.
+**Too many organic posts** — 37.5% of creators had zero campaign
+history because 40 campaigns wasn't enough. Fixed by increasing
+to 70 campaigns.
 
-**Too many organic posts** — 37.5% of my creators had zero campaign 
-history because 40 campaigns wasn't enough to reach 200 creators. 
-Their posts were all forced organic. Fixed by increasing campaigns 
-from 40 to 70.
 
-**Path errors** — My scripts were saving CSVs to the wrong folder 
-because I was running them from different directories. Fixed by using 
-`os.path.abspath(__file__)` to build paths relative to the script 
-location, not wherever I ran it from.
+## ✶ Data Disclaimer
 
----
+This project is a portfolio prototype built using benchmark-grounded
+synthetic data. Engagement rate ranges are sourced from Influencer
+Marketing Hub and Qoruz 2025-2026 reports. Recommendations and
+estimates demonstrate decision-support logic and are not guaranteed
+real-world outcomes.
+Real campaign data, creator consent, and platform-compliant data
+access would be required for production use.
 
-## ✶ Data Methodology
-
-Real campaign data is confidential. Agencies don't publish creator 
-ROI numbers. Scraping Instagram violates their ToS.
-
-So I built synthetic data that follows real industry patterns. The 
-engagement rate ranges come from Influencer Marketing Hub and Qoruz 
-2025-2026 benchmark reports. The individual rows are fake. The 
-patterns are real.
-
-Full details in `docs/data_methodology.md`.
-
----
 
 ## ✶ Progress
 
-
-|  | Module | Focus | Deliverables | Status |
-|---|---|---|---|---|
-| 1 | Foundation | SQL schema + database setup | 7-table PostgreSQL schema, ERD, data dictionary |  Complete |
-| 2 | Data Generation | Python synthetic data pipeline | 5 scripts, 5,165 rows, 7 tables populated |  Complete |
-| 3 | Python EDA | Exploratory data analysis | 8-cell Jupyter notebook, 5 charts, key insights |  Complete |
-| 4 | Excel Reporting | Automated KPI reports | Auto-generated .xlsx campaign report |  Complete |
-| 5 | AI / ML Model | Creator Scoring model | Weighted model, sentiment analysis, fake engagement detector | Upcoming |
-| 6 | Power BI | Executive dashboard | 3-page interactive dashboard with DAX measures |  Upcoming |
-| 7 | Streamlit | Live web application | Deployed app with shareable URL | Upcoming |
-
+|  | Module | Focus | Status |
+|---|---|---|---|
+| 1 | Database | 7-table PostgreSQL schema | Complete |
+| 2 | Data Generation | 5 Python generators, 5165 rows |  Complete |
+| 3 | EDA | Jupyter notebook, 5 charts |  Complete |
+| 4 | Excel Report | Auto-generated KPI report |  Complete |
+| 5 | VibeScore Model | Creator scoring algorithm |  In Progress |
+| 6 | Budget Allocator | INR budget split tool | Upcoming |
+| 7 | Scenario Comparison | Nano vs micro vs mixed |  Upcoming |
+| 8 | Risk Indicator | Authenticity risk flagging |  Upcoming |
+| 9 | Power BI | Executive dashboard |  Upcoming |
+| 10 | Streamlit | Live deployed app |  Upcoming |
 
 
