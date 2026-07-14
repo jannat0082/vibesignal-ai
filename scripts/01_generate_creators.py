@@ -1,20 +1,24 @@
 """
-CreatorIQ — Synthetic Data Generator
-Step 1: Generate the creators table.
+VibeSignal AI - Creator Data Generator
+Generates synthetic creator profiles for an India-first D2C
+creator intelligence and campaign-planning prototype.
+
+This dataset is synthetic and intended for portfolio/demo use only.
 """
 
+import os
 import random
+
 import numpy as np
 import pandas as pd
 from faker import Faker
-import os
 
-fake = Faker()
+fake = Faker("en_IN")
+
 random.seed(42)
 np.random.seed(42)
+Faker.seed(42)
 
-# Build path relative to this script's location — works regardless of
-# where you run the script from
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
@@ -28,21 +32,88 @@ TIER_WEIGHTS = {
 }
 
 TIER_CONFIG = {
-    "nano":  {"followers": (1_000, 10_000),        "engagement": (6.0, 10.0)},
-    "micro": {"followers": (10_000, 100_000),      "engagement": (3.0, 6.0)},
-    "macro": {"followers": (100_000, 1_000_000),   "engagement": (1.0, 3.0)},
-    "mega":  {"followers": (1_000_000, 5_000_000), "engagement": (0.5, 1.5)},
+    "nano": {
+        "followers":  (1_000, 10_000),
+        "engagement": (6.0, 10.0),
+        "cost_inr":   (1_500, 8_000),
+    },
+    "micro": {
+        "followers":  (10_000, 100_000),
+        "engagement": (3.0, 6.0),
+        "cost_inr":   (8_000, 35_000),
+    },
+    "macro": {
+        "followers":  (100_000, 1_000_000),
+        "engagement": (1.0, 3.0),
+        "cost_inr":   (35_000, 200_000),
+    },
+    "mega": {
+        "followers":  (1_000_000, 5_000_000),
+        "engagement": (0.5, 1.5),
+        "cost_inr":   (200_000, 1_000_000),
+    },
 }
 
-PLATFORMS = ["instagram", "youtube", "tiktok", "twitter"]
-NICHES    = ["fitness", "beauty", "gaming", "finance",
-             "travel", "food", "fashion", "tech"]
-COUNTRIES = ["United States", "United Kingdom", "India",
-             "Canada", "Australia", "Germany"]
+# TikTok excluded — not available in India
+PLATFORMS = ["instagram", "youtube", "twitter"]
+
+NICHES = [
+    "fitness", "beauty", "gaming", "finance",
+    "travel", "food",   "fashion", "tech",
+]
+
+INDIAN_LANGUAGES = [
+    "Hindi", "English", "Hinglish",
+    "Gujarati", "Marathi", "Tamil", "Telugu",
+]
+
+CITY_TIERS = ["Tier 1", "Tier 2", "Tier 3"]
 
 
-def generate_creators(n=NUM_CREATORS):
+def create_handle(name: str) -> str:
+    clean = name.lower().replace(" ", "_").replace(".", "")
+    return f"@{clean}{random.randint(1, 999)}"
+
+
+def calculate_authenticity_risk(
+    follower_growth_spike: int,
+    comment_like_ratio: float,
+    engagement_variance: float,
+) -> int:
+    """
+    Synthetic risk score from 0 to 100.
+    Prototype only — not a verified fake-engagement detector.
+    audience_authenticity_score = 100 - authenticity_risk_score.
+    Use only one of these two in the VibeScore model to avoid
+    double-counting the same signal.
+    """
+    risk_points = 0
+
+    if follower_growth_spike == 1:
+        risk_points += 35
+
+    if comment_like_ratio < 0.02:
+        risk_points += 20
+
+    if engagement_variance > 0.35:
+        risk_points += 20
+
+    risk_points += random.randint(0, 20)
+
+    return min(100, risk_points)
+
+
+def get_risk_level(risk_score: int) -> str:
+    if risk_score < 35:
+        return "low"
+    if risk_score < 65:
+        return "medium"
+    return "high"
+
+
+def generate_creators(n: int = NUM_CREATORS) -> pd.DataFrame:
     rows = []
+
     tiers = random.choices(
         population=list(TIER_WEIGHTS.keys()),
         weights=list(TIER_WEIGHTS.values()),
@@ -55,9 +126,23 @@ def generate_creators(n=NUM_CREATORS):
 
         follower_count      = random.randint(*config["followers"])
         avg_engagement_rate = round(random.uniform(*config["engagement"]), 2)
+        estimated_cost_inr  = random.randint(*config["cost_inr"])
+
+        follower_growth_spike = random.choice([0, 0, 0, 0, 1])
+        comment_like_ratio    = round(random.uniform(0.01, 0.12), 3)
+        engagement_variance   = round(random.uniform(0.05, 0.50), 2)
+
+        authenticity_risk_score = calculate_authenticity_risk(
+            follower_growth_spike=follower_growth_spike,
+            comment_like_ratio=comment_like_ratio,
+            engagement_variance=engagement_variance,
+        )
+
+        audience_authenticity_score = 100 - authenticity_risk_score
+        authenticity_risk_level     = get_risk_level(authenticity_risk_score)
 
         name   = fake.name()
-        handle = "@" + name.lower().replace(" ", "_") + str(random.randint(1, 999))
+        handle = create_handle(name)
 
         rows.append({
             "creator_id":                  i + 1,
@@ -68,9 +153,20 @@ def generate_creators(n=NUM_CREATORS):
             "tier":                        tier,
             "follower_count":              follower_count,
             "avg_engagement_rate":         avg_engagement_rate,
-            "country":                     random.choice(COUNTRIES),
-            "audience_authenticity_score": None,
-            "joined_date":                 fake.date_between(start_date="-3y", end_date="-3m"),
+            "estimated_cost_inr":          estimated_cost_inr,
+            "country":                     "India",
+            "primary_language":            random.choice(INDIAN_LANGUAGES),
+            "city_tier":                   random.choice(CITY_TIERS),
+            "follower_growth_spike":       follower_growth_spike,
+            "comment_like_ratio":          comment_like_ratio,
+            "engagement_variance":         engagement_variance,
+            "authenticity_risk_score":     authenticity_risk_score,
+            "authenticity_risk_level":     authenticity_risk_level,
+            "audience_authenticity_score": audience_authenticity_score,
+            "joined_date":                 fake.date_between(
+                                               start_date="-3y",
+                                               end_date="-3m",
+                                           ),
         })
 
     return pd.DataFrame(rows)
@@ -82,16 +178,35 @@ if __name__ == "__main__":
     df = generate_creators()
 
     print("Shape:", df.shape)
-    print()
-    print("Tier distribution:")
-    print(df["tier"].value_counts())
-    print()
-    print("Engagement rate by tier -- should DECREASE as tier grows:")
-    print(df.groupby("tier")["avg_engagement_rate"].mean()
-            .reindex(["nano", "micro", "macro", "mega"]))
-    print()
-    print(df.head(5).to_string())
 
-    out = os.path.join(DATA_DIR, "creators.csv")
-    df.to_csv(out, index=False)
-    print(f"\nSaved to {out}")
+    print("\nTier distribution:")
+    print(df["tier"].value_counts())
+
+    print("\nAverage engagement rate by tier (%):")
+    print(
+        df.groupby("tier")["avg_engagement_rate"]
+        .mean()
+        .reindex(["nano", "micro", "macro", "mega"])
+        .round(2)
+    )
+
+    print("\nAverage estimated cost by tier (INR):")
+    print(
+        df.groupby("tier")["estimated_cost_inr"]
+        .mean()
+        .reindex(["nano", "micro", "macro", "mega"])
+        .round()
+    )
+
+    print("\nAuthenticity risk distribution:")
+    print(df["authenticity_risk_level"].value_counts())
+
+    print("\nPlatform distribution:")
+    print(df["platform"].value_counts())
+
+    print("\nSample rows:")
+    print(df.head(3).to_string())
+
+    output_path = os.path.join(DATA_DIR, "creators.csv")
+    df.to_csv(output_path, index=False)
+    print(f"\nSaved to: {output_path}")

@@ -1,10 +1,10 @@
-# Data Methodology — CreatorIQ
+# Data Methodology — VibeSignal AI
 
 ## Why synthetic data
 
 Real creator marketing data is proprietary and confidential.
 Scraping from Instagram/YouTube/TikTok would violate Terms of Service.
-CreatorIQ uses synthetic data engineered to match published industry benchmarks.
+VibeSignal AI uses synthetic data engineered to match published industry benchmarks.
 
 ## Engagement rate benchmarks used
 
