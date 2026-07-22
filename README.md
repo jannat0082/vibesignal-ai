@@ -1,72 +1,102 @@
-# VibeSignal AI 🌻
-VibeSignal AI is a budget-first creator intelligence prototype built for Indian D2C brands and marketing agencies. It helps brands decide — before they spend — whether to work with nano creators, micro creators, or a mixed strategy, and recommends specific creators and budget allocations for a given INR campaign budget.
+# VibeSignal AI 🌼
+
+VibeSignal AI is a budget-first creator intelligence system designed for Indian D2C brands and marketing agencies. It supports pre-campaign decision-making by evaluating creators, estimating budget allocation options, and recommending nano, micro, or mixed creator strategies based on campaign objectives and fixed INR budgets.
+
+## ✶ Overview
+
+Influencer marketing tools often report creator performance after a campaign has ended. That approach is useful for post-campaign analysis, but it does not support early-stage budget decisions. VibeSignal AI addresses this gap by analyzing creator-level data in advance, assigning a VibeScore to each creator, and recommending budget allocation strategies aligned with campaign goals.
+
+The project is built for budget-sensitive teams that need transparent, data-backed creator selection rather than intuition-led decisions.
+
+## ✶ Business Objective
+
+VibeSignal AI was designed to improve campaign planning for Indian D2C brands and marketing agencies operating with fixed creator budgets. The objective is to identify which creators are most likely to deliver value, how the budget should be allocated, and whether a nano, micro, or mixed strategy is best suited to the campaign goal.
 
 ## ✶ Problem Statement
-Most influencer marketing tools show you which creators performed best
-after a campaign ends. That's useful, but it's too late. VibeSignal AI helps brands make the decision before spending — by analyzing creator data, scoring each creator with VibeScore, and recommending a budget allocation strategy based on campaign goals. Built specifically for Indian D2C brands where budgets are tight and every rupee of creator spend needs to be justified.
 
+Most influencer platforms focus on reporting results after the campaign is complete. While this helps with retrospective analysis, it does not solve the more important question faced by brands before launch: which creators should receive budget, and how much?
 
-## ✶ Key Features
-- **VibeScore** — composite creator ranking across 5 weighted dimensions
-- **Budget Allocator** — splits a fixed INR budget across recommended creators
-- **Scenario Comparison** — nano vs micro vs mixed strategy side by side
-- **Engagement Authenticity Risk Indicator** — flags possible risk signals
-- **EDA Notebook** — 5 charts surfacing real patterns in the data
-- **Excel Report** — auto-generated campaign KPI report
+VibeSignal AI addresses this by combining creator scoring, campaign-level analysis, and budget allocation logic into a decision-support framework.
+
+## ✶ Solution
+
+VibeSignal AI provides a structured workflow for evaluating creators before a campaign begins:
+
+- **VibeScore** ranks creators using a transparent weighted model.
+- **Budget Allocator** distributes a fixed INR budget across recommended creators.
+- **Scenario Comparison** evaluates nano, micro, and mixed strategies side by side.
+- **Engagement Authenticity Risk Indicator** flags potential low-quality engagement signals.
+- **EDA Notebook** surfaces patterns in creator performance, engagement, and conversion behavior.
+- **Excel Report** generates a campaign-ready KPI summary.
+
+## ✶ Methodology
+
+The project follows a structured analytics pipeline. Creator, campaign, post, conversion, and audience data are generated and stored in PostgreSQL, then analyzed in Python using Pandas, NumPy, Matplotlib, and Seaborn.
+
+A weighted scoring model assigns each creator a VibeScore based on five dimensions: audience fit, engagement quality, content relevance, cost efficiency, and authenticity risk. The EDA notebook and supporting reports are used to validate patterns, compare creator tiers, and support budget allocation logic.
 
 ## ✶ Core Insight
-Nano creators drive far higher engagement rates (up to ~8x vs mega creators), but large creators convert substantially better (observed ~44x higher conversion). Measuring engagement alone can mislead ROI-focused campaigns — VibeSignal aims to close that gap by prioritizing conversion-aligned signals and budget efficiency.
+
+The analysis shows that nano creators can generate significantly higher engagement, while larger creators may deliver stronger conversion performance. This makes engagement-only evaluation insufficient for ROI-focused campaigns.
+
+VibeSignal AI is designed to support more balanced creator selection by considering both engagement quality and conversion potential.
 
 ## ✶ VibeScore Framework
-VibeScore is a transparent creator scoring framework that rates each creator from 0 to 100 across five dimensions.
 
-| Dimension          | Weight | Purpose                                                                 |
-| ------------------ | ------ | ----------------------------------------------------------------------- |
-| Audience Fit       | 30%    | Measures how well the creator reaches the intended audience.            |
-| Engagement Quality | 25%    | Evaluates whether followers are genuinely interacting with the content. |
-| Content Relevance  | 20%    | Assesses how closely the content aligns with the brand category.        |
-| Cost Efficiency    | 15%    | Measures value delivered per rupee spent.                               |
-| Authenticity Risk  | 10%    | Flags possible signs of fake or low-quality engagement.                 |
+VibeScore assigns each creator a score from 0 to 100 across five dimensions.
 
-Score Bands
-- **75-100**: Scale — increase investment.
-- **50-74**: Watch — monitor closely.
-- **25-49**: Improve — refine the partnership strategy.
-- **0-24**: Stop — exit the partnership.
+| Dimension | Weight | Purpose |
+|---|---:|---|
+| Audience Fit | 30% | Measures how well the creator reaches the intended audience. |
+| Engagement Quality | 25% | Evaluates whether followers are genuinely interacting with the content. |
+| Content Relevance | 20% | Assesses how closely the content aligns with the brand category. |
+| Cost Efficiency | 15% | Measures value delivered per rupee spent. |
+| Authenticity Risk | 10% | Flags possible signs of fake or low-quality engagement. |
 
-VibeScore is a prototype decision framework, not a production-grade scoring system. The weights are configurable and intentionally transparent.
+### ✶ Score Bands
+- **75–100**: Scale — increase investment.
+- **50–74**: Watch — monitor closely.
+- **25–49**: Improve — refine the partnership strategy.
+- **0–24**: Stop — exit the partnership.
+
+> VibeScore is a prototype decision framework. Weights are configurable and intentionally transparent.
 
 ## ✶ Tech Stack
 
-| What | Tool |
+| Component | Technology |
 |---|---|
 | Database | PostgreSQL on Supabase |
-| Data scripts | Python (Faker, Pandas, NumPy) |
-| Analysis | Jupyter notebook, Matplotlib, Seaborn |
-| Scoring model | Python weighted algorithm |
-| Risk indicator | Rule-based signal detection |
-| Excel reports | openpyxl |
+| Data Generation | Python, Faker, Pandas, NumPy |
+| Analysis | Jupyter Notebook, Matplotlib, Seaborn |
+| Scoring Model | Python-based weighted algorithm |
+| Risk Indicator | Rule-based signal detection |
+| Reporting | openpyxl |
 | Dashboard | Power BI |
-| Web app | Streamlit |
+| Web App | Streamlit |
 
----
+## ✶ Data & Schema
 
-## ✶ Data & Schema 
-Database: PostgreSQL on Supabase
-Rows: 5,165 across 7 tables
+The database contains 5,165 rows across 7 tables.
 
-| Table | Rows | What it stores |
-|---|---|---|
+| Table | Rows | Description |
+|---|---:|---|
 | brands | 15 | D2C brand profiles |
 | creators | 200 | Creator profiles with tier and engagement data |
-| campaigns | 70 | Campaign budgets, objectives, dates |
-| campaign_creators | 460 | Who worked in which campaign, for what fee |
-| posts | 783 | Content metrics — likes, views, clicks, reach |
-| conversions | 2,437 | Actual purchases with promo codes |
-| audience_demographics | 1,200 | Creator audience breakdown |
+| campaigns | 70 | Campaign budgets, objectives, and dates |
+| campaign_creators | 460 | Creator assignments and fees |
+| posts | 783 | Content metrics such as likes, views, clicks, and reach |
+| conversions | 2,437 | Purchases attributed to promo codes |
+| audience_demographics | 1,200 | Audience breakdown by creator |
 
-## ✶ Project Structure
+## ✶ Results
 
+VibeSignal AI produced a structured creator selection and budget-planning workflow for Indian D2C campaigns. The analysis showed that engagement and conversion do not always move together, which reinforces the need for a multi-factor scoring approach rather than relying on reach or engagement alone.
+
+The project also surfaced clear patterns in creator performance, audience behavior, and content format effectiveness through EDA. These findings informed the VibeScore framework, the budget allocation logic, and the scenario comparison approach used to evaluate nano, micro, and mixed creator strategies.
+
+From an implementation standpoint, the repository includes reproducible data generation scripts, a scoring model, an Excel report, and an analysis notebook with supporting visualizations. This makes the project easy to review, test, and extend as a decision-support system.
+
+## ✶ Repository Structure
 
 ```bash
 vibesignal-ai
@@ -92,59 +122,67 @@ vibesignal-ai
 └── .gitignore
 ```
 
-## ✶ Getting Started
+## ✶ Setup
 
+### Prerequisites
+- Python 3.10 or later
+- Git
+- A local virtual environment is recommended
+
+### Installation
 ```bash
 git clone https://github.com/jannat0082/vibesignal-ai.git
 cd vibesignal-ai
+python -m venv .venv
+# Windows:
+# .venv\Scripts\activate
+# macOS/Linux:
+# source .venv/bin/activate
+pip install --upgrade pip
 pip install faker pandas numpy matplotlib seaborn scikit-learn openpyxl
+```
+
+### Run the Project
+```bash
 python scripts/01_generate_creators.py
 python scripts/02_generate_campaigns.py
 python scripts/03_generate_posts.py
 python scripts/04_generate_conversions.py
 python scripts/05_generate_audience_demographics.py
+python scripts/06_generate_excel_report.py
+python scripts/07_vibescore_model.py
 ```
 
+### Notes
+- The `data/` directory is gitignored because it contains generated outputs.
+- The scripts are intended to be executed in sequence.
+- Additional analysis is available in `notebooks/01_eda_analysis.ipynb`.
 
-## ✶ Challenges & Fixes
+## ✶ Challenges and Resolutions
 
-- **Promo code collision** — used `random.randint(10,99)` which only
-has 90 possible values. Got 18 duplicate codes across 462 rows.
-Fixed by using `cc_id` instead — a guaranteed unique counter.
-
-- **The 68.0 problem** — pandas saves nullable integers as float64.
-So `68` became `68.0` and Supabase rejected it. Fixed by casting
-to `Int64` before saving.
-
-- **Too many organic posts** — 37.5% of creators had zero campaign
-history because 40 campaigns wasn't enough. Fixed by increasing
-to 70 campaigns.
-
+- **Promo code collisions** were caused by a limited random number range. This was resolved by using `cc_id` as a unique identifier.
+- **Nullable integer export issues** occurred because pandas converted integers to float values such as `68.0`. This was resolved by casting fields to `Int64` before export.
+- **Limited campaign history** reduced creator coverage. This was improved by increasing the number of campaigns from 40 to 70.
 
 ## ✶ Data Disclaimer
 
-This project is a portfolio prototype built using benchmark-grounded
-synthetic data. Engagement rate ranges are sourced from Influencer
-Marketing Hub and Qoruz 2025-2026 reports. Recommendations and
-estimates demonstrate decision-support logic and are not guaranteed
-real-world outcomes.
-Real campaign data, creator consent, and platform-compliant data
-access would be required for production use.
+This project uses benchmark-informed synthetic data for demonstration and evaluation purposes. Engagement assumptions are based on public industry reports, and the recommendations are intended to illustrate decision-support logic rather than guarantee real-world outcomes. Production deployment would require real campaign data, creator consent, and platform-compliant access.
 
+## ✶ Project Status
 
-## ✶ Progress
+| Module | Status |
+|---|---|
+| Database | Complete |
+| Data Generation | Complete |
+| EDA | Complete |
+| Excel Report | Complete |
+| VibeScore Model | In Progress |
+| Budget Allocator | Upcoming |
+| Scenario Comparison | Upcoming |
+| Risk Indicator | Upcoming |
+| Power BI | Upcoming |
+| Streamlit | Upcoming |
 
-|  | Module | Focus | Status |
-|---|---|---|---|
-| 1 | Database | 7-table PostgreSQL schema | Complete |
-| 2 | Data Generation | 5 Python generators, 5165 rows |  Complete |
-| 3 | EDA | Jupyter notebook, 5 charts |  Complete |
-| 4 | Excel Report | Auto-generated KPI report |  Complete |
-| 5 | VibeScore Model | Creator scoring algorithm |  In Progress |
-| 6 | Budget Allocator | INR budget split tool | Upcoming |
-| 7 | Scenario Comparison | Nano vs micro vs mixed |  Upcoming |
-| 8 | Risk Indicator | Authenticity risk flagging |  Upcoming |
-| 9 | Power BI | Executive dashboard |  Upcoming |
-| 10 | Streamlit | Live deployed app |  Upcoming |
+## ✶ Live Preview
 
-
+- Repository: [VibeSignal AI](https://github.com/jannat0082/vibesignal-ai)
